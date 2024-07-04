@@ -1,4 +1,4 @@
-# Course Review Project Part2
+# E Commerce
 
 This project serves as the assignment 2 of the Mission Success to JP.
 

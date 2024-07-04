@@ -14,4 +14,5 @@ export type TProduct = {
     quantity: number;
     inStock: boolean;
   };
+  isDeleted?: boolean;
 };
