@@ -2,6 +2,41 @@ import { catchAsync } from '../../utils/catchAsync';
 import { productServices } from './product.services';
 import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
+import { TProduct } from './product.interface';
+
+const createProduct = catchAsync(async (req, res) => {
+  const { productInfo } = req.body;
+  const result = await productServices.createProductIntoDB(productInfo);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'product is created successfully',
+    data: result,
+  });
+});
+
+const createProducts2 = async (req, res) => {
+  try {
+    const { productInfo } = req.body;
+    const result = await productServices.createProductIntoDB(productInfo);
+
+    res.status(200).json({
+      success: true,
+      message: 'User created successfully',
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: 'something went wrong.User creation Failed',
+      error: {
+        code: err.code,
+        description: err.message,
+      },
+    });
+  }
+};
 
 const getSingleProduct = catchAsync(async (req, res) => {
   const { id } = req.params;
@@ -16,45 +51,45 @@ const getSingleProduct = catchAsync(async (req, res) => {
 });
 
 const getAllProduct = catchAsync(async (req, res) => {
-  const result = await StudentServices.getAllStudentsFromDB(req.query);
+  const result = await productServices.getAllProductsFromDB(req.query);
   console.log({ result });
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student are retrieved successfully',
-    meta: result.meta,
-    data: result.result,
-  });
-});
-
-const updateStudent = catchAsync(async (req, res) => {
-  const { id } = req.params;
-  const { student } = req.body;
-  const result = await StudentServices.updateStudentIntoDB(id, student);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Student is updated successfully',
+    message: 'products are retrieved successfully',
+    // meta: result.meta,
     data: result,
   });
 });
 
-const deleteStudent = catchAsync(async (req, res) => {
+const updateProduct = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await StudentServices.deleteStudentFromDB(id);
+  const { productInfo } = req.body;
+  const result = await productServices.updateProdcutIntoDB(id, productInfo);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student is deleted successfully',
+    message: 'product is updated successfully',
+    data: result,
+  });
+});
+
+const deleteProduct = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await productServices.deleteProductFromDB(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'product is deleted successfully',
     data: result,
   });
 });
 
 export const StudentControllers = {
-  getAllStudents,
-  getSingleStudent,
-  deleteStudent,
-  updateStudent,
+  getAllProduct,
+  getSingleProduct,
+  updateProduct,
+  deleteProduct,
 };

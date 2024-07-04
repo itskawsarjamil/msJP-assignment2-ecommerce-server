@@ -5,7 +5,7 @@ const createProductIntoDB = async (payload: TProduct) => {
   const result = await Product.create(payload);
   return result;
 };
-const getAllProductsFromDB = async (query: Record<String, unknown>) => {
+const getAllProductsFromDB = async (query: Record<string, unknown>) => {
   console.log(query);
   const result = await Product.find();
   return result;
