@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { TProduct, TVariants } from './product.interface';
+import { ProductModel, TProduct, TVariants } from './product.interface';
 
 const variantsSchema = new Schema<TVariants>(
   {
@@ -17,7 +17,7 @@ const variantsSchema = new Schema<TVariants>(
   },
 );
 
-const productSchema = new Schema<TProduct>(
+const productSchema = new Schema<TProduct, ProductModel>(
   {
     name: {
       type: String,
@@ -59,9 +59,29 @@ const productSchema = new Schema<TProduct>(
     },
   },
   {
-    virtuals: true,
+    toJSON: {
+      virtuals: true,
+    },
     timestamps: true,
   },
 );
 
-export const Product = model<TProduct>('product', productSchema);
+productSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+productSchema.pre('findOne', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+productSchema.statics.isProductExist = async (id: string) => {
+  const existingProduct = await Product.findOne({
+    _id: id,
+    isDeleted: { $ne: true },
+  });
+  return existingProduct;
+};
+
+export const Product = model<TProduct, ProductModel>('product', productSchema);

@@ -1,3 +1,5 @@
+import { Model } from 'mongoose';
+
 export type TVariants = {
   type: string;
   value: string;
@@ -16,3 +18,7 @@ export type TProduct = {
   };
   isDeleted?: boolean;
 };
+
+export interface ProductModel extends Model<TProduct> {
+  isProductExist(id: string): Promise<TProduct | null>;
+}

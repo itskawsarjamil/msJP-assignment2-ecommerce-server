@@ -1,17 +1,16 @@
-import { catchAsync } from '../../utils/catchAsync';
-import { productServices } from './product.services';
-import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
-import { TProduct } from './product.interface';
+import { catchAsync } from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
+import { productServices } from './product.services';
 
 const createProduct = catchAsync(async (req, res) => {
-  const { productInfo } = req.body;
+  const productInfo = req.body;
   const result = await productServices.createProductIntoDB(productInfo);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'product is created successfully',
+    message: 'product created successfully',
     data: result,
   });
 });
@@ -40,19 +39,20 @@ const createProduct = catchAsync(async (req, res) => {
 
 const getSingleProduct = catchAsync(async (req, res) => {
   const { id } = req.params;
+
   const result = await productServices.getSingleProductFromDB(id);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Product is retrieved successfully',
+    message: 'Product fetched successfully',
     data: result,
   });
 });
 
 const getAllProduct = catchAsync(async (req, res) => {
   const result = await productServices.getAllProductsFromDB(req.query);
-  console.log({ result });
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -82,7 +82,7 @@ const deleteProduct = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'product is deleted successfully',
+    message: 'product deleted successfully',
     data: result,
   });
 });
