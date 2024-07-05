@@ -16,27 +16,27 @@ const createProduct = catchAsync(async (req, res) => {
   });
 });
 
-const createProducts2 = async (req, res) => {
-  try {
-    const { productInfo } = req.body;
-    const result = await productServices.createProductIntoDB(productInfo);
+// const createProducts2 = async (req, res) => {
+//   try {
+//     const { productInfo } = req.body;
+//     const result = await productServices.createProductIntoDB(productInfo);
 
-    res.status(200).json({
-      success: true,
-      message: 'User created successfully',
-      data: result,
-    });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: 'something went wrong.User creation Failed',
-      error: {
-        code: err.code,
-        description: err.message,
-      },
-    });
-  }
-};
+//     res.status(200).json({
+//       success: true,
+//       message: 'User created successfully',
+//       data: result,
+//     });
+//   } catch (err: any) {
+//     res.status(500).json({
+//       success: false,
+//       message: 'something went wrong.User creation Failed',
+//       error: {
+//         code: err.code,
+//         description: err.message,
+//       },
+//     });
+//   }
+// };
 
 const getSingleProduct = catchAsync(async (req, res) => {
   const { id } = req.params;
@@ -87,7 +87,8 @@ const deleteProduct = catchAsync(async (req, res) => {
   });
 });
 
-export const StudentControllers = {
+export const ProductControllers = {
+  createProduct,
   getAllProduct,
   getSingleProduct,
   updateProduct,
