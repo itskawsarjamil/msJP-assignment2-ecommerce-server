@@ -1,9 +1,8 @@
-import mongoose from 'mongoose';
+import httpStatus from 'http-status';
+import AppError from '../../errors/AppError';
+import { Product } from '../product/product.model';
 import { TOrder } from './order.interface';
 import { Order } from './order.model';
-import { Product } from '../product/product.model';
-import AppError from '../../errors/AppError';
-import httpStatus from 'http-status';
 
 const createOrderintoDB = async (payload: TOrder) => {
   const { productId, quantity: orderedQuantity } = payload;
@@ -62,14 +61,11 @@ const createOrderintoDB = async (payload: TOrder) => {
   if (!result) {
     throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create order');
   }
-  const data = { ...result?._doc };
-  delete data['isDeleted'];
-  delete data['createdAt'];
-  delete data['updatedAt'];
-  delete data['__v'];
-  delete data['_id'];
+  const finalResult = await Order.findById(result.id).select(
+    '-__v -isDeleted -createdAt -updatedAt -_id',
+  );
 
-  return data;
+  return finalResult;
 };
 
 const getAllOrdersFromDB = async () => {

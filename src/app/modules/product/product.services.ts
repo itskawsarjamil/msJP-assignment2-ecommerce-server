@@ -7,14 +7,11 @@ import { productSearchableFields } from './produc.constant';
 
 const createProductIntoDB = async (payload: TProduct) => {
   const result = await Product.create(payload);
-  const data = { ...result?._doc };
-  delete data['isDeleted'];
-  delete data['createdAt'];
-  delete data['updatedAt'];
-  delete data['__v'];
-  delete data['_id'];
+  const finalResult = await Product.findById(result.id).select(
+    '-__v -isDeleted -createdAt -updatedAt -_id',
+  );
 
-  return data;
+  return finalResult;
 };
 const getAllProductsFromDB = async (query: Record<string, unknown>) => {
   const productQuery = new QueryBuilder(Product.find(), query)

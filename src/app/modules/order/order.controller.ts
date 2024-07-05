@@ -1,7 +1,7 @@
 import httpStatus from 'http-status';
 import { catchAsync } from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-import { Order } from './order.model';
+
 import { orderServices } from './order.service';
 
 const createOrder = catchAsync(async (req, res) => {

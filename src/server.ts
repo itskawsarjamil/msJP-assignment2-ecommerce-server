@@ -12,7 +12,7 @@ let server: Server;
 async function main() {
   try {
     // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
-    await mongoose.connect(config.database_url_local as string, clientOptions);
+    await mongoose.connect(config.database_url as string, clientOptions);
     server = app.listen(config.port, () => {
       console.log(`Example app listening on port ${config.port}`);
     });
