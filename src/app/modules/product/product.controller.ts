@@ -36,6 +36,20 @@ const createProduct = catchAsync(async (req, res) => {
 //     });
 //   }
 // };
+// const createProducts3 = async (req, res,next) => {
+//   try {
+//     const { productInfo } = req.body;
+//     const result = await productServices.createProductIntoDB(productInfo);
+
+//     res.status(200).json({
+//       success: true,
+//       message: 'User created successfully',
+//       data: result,
+//     });
+//   } catch (err: any) {
+//     next(err)
+//   }
+// };
 
 const getSingleProduct = catchAsync(async (req, res) => {
   const { id } = req.params;
