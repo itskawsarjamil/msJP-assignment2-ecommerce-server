@@ -8,7 +8,7 @@ import { productSearchableFields } from './produc.constant';
 const createProductIntoDB = async (payload: TProduct) => {
   const result = await Product.create(payload);
   const finalResult = await Product.findById(result.id).select(
-    '-__v -isDeleted -createdAt -updatedAt -_id',
+    '-__v -isDeleted -createdAt -updatedAt',
   );
 
   return finalResult;
@@ -18,14 +18,14 @@ const getAllProductsFromDB = async (query: Record<string, unknown>) => {
     .search(productSearchableFields)
     .filter();
   const result = await productQuery.ModelQuery.select(
-    '-__v -isDeleted -createdAt -updatedAt -_id',
+    '-__v -isDeleted -createdAt -updatedAt',
   );
   // await Product.find().select('-__v -isDeleted -createdAt -updatedAt -_id -id');
   return result;
 };
 const getSingleProductFromDB = async (productId: string) => {
   const result = await Product.findById(productId).select(
-    '-__v -isDeleted -createdAt -updatedAt -_id',
+    '-__v -isDeleted -createdAt -updatedAt',
   );
 
   return result;
@@ -48,7 +48,7 @@ const deleteProductFromDB = async (productId: string) => {
   if (!existingProduct) {
     throw new AppError(httpStatus.NOT_FOUND, 'Product not found');
   }
-  const result = await Product.findByIdAndUpdate(
+  await Product.findByIdAndUpdate(
     productId,
     { isDeleted: true },
     {

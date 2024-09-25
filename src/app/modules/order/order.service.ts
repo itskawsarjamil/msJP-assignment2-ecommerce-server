@@ -62,7 +62,7 @@ const createOrderintoDB = async (payload: TOrder) => {
     throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create order');
   }
   const finalResult = await Order.findById(result.id).select(
-    '-__v -isDeleted -createdAt -updatedAt -_id',
+    '-__v -isDeleted -createdAt -updatedAt',
   );
 
   return finalResult;
@@ -70,14 +70,14 @@ const createOrderintoDB = async (payload: TOrder) => {
 
 const getAllOrdersFromDB = async () => {
   const result = await Order.find().select(
-    '-__v -isDeleted -createdAt -updatedAt -_id -id',
+    '-__v -isDeleted -createdAt -updatedAt',
   );
   return result;
 };
 
 const getSingleOrderFromDB = async (email: string) => {
   const result = await Order.findOne({ email }).select(
-    '-__v -isDeleted -createdAt -updatedAt -_id -id',
+    '-__v -isDeleted -createdAt -updatedAt',
   );
   return result;
 };
